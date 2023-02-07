@@ -7,12 +7,12 @@ import { defaultTheme } from "./styles/themes/default";
 export function App() {
     return (
         <div className="App">
-            <TransactionsProvier>
-                <ThemeProvider theme={defaultTheme}>
-                    <GlobalStyle />
+            <ThemeProvider theme={defaultTheme}>
+                <GlobalStyle />
+                <TransactionsProvier>
                     <Transactions />
-                </ThemeProvider>
-            </TransactionsProvier>
+                </TransactionsProvier>
+            </ThemeProvider>
         </div>
     );
 }
