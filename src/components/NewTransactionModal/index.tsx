@@ -3,6 +3,7 @@ import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
+import { api } from "../../lib/axios";
 import {
     CloseButton,
     Content,
@@ -10,6 +11,8 @@ import {
     TransactionType,
     TransactionTypeButton,
 } from "./styles";
+import { useContext } from "react";
+import { TransactionContext } from "../../contexts/TransactionsContext";
 
 const formSchema = z.object({
     description: z.string(),
@@ -21,11 +24,14 @@ const formSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof formSchema>;
 
 export function NewTransactionModal() {
+    const { createTransactions } = useContext(TransactionContext);
+
     const {
         register,
         handleSubmit,
         control,
         formState: { isSubmitting },
+        reset,
     } = useForm<NewTransactionFormInputs>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -34,8 +40,8 @@ export function NewTransactionModal() {
     });
 
     async function handleNewTransaction(data: NewTransactionFormInputs) {
-        await new Promise((resolve) => setTimeout(resolve, 1500)); // Proposital delay to test button disabled style.
-        console.log(data);
+        await createTransactions(data);
+        reset();
     }
 
     return (
