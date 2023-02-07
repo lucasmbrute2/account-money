@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { SearchFormContainer } from "./styles";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext } from "react";
+import { useContextSelector } from "use-context-selector";
 import { TransactionContext } from "../../../../contexts/TransactionsContext";
 
 const formSchema = z.object({
@@ -13,7 +13,10 @@ const formSchema = z.object({
 type SearchFormInputs = z.infer<typeof formSchema>;
 
 export function SearchForm() {
-    const { getTransactions } = useContext(TransactionContext);
+    const getTransactions = useContextSelector(
+        TransactionContext,
+        (context) => context.getTransactions
+    ); // This library will prevent unnecassary re-renders based on context changes.
 
     const {
         register,

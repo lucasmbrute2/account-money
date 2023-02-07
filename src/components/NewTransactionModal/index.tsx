@@ -3,7 +3,8 @@ import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
-import { api } from "../../lib/axios";
+import { TransactionContext } from "../../contexts/TransactionsContext";
+import { useContextSelector } from "use-context-selector";
 import {
     CloseButton,
     Content,
@@ -11,8 +12,6 @@ import {
     TransactionType,
     TransactionTypeButton,
 } from "./styles";
-import { useContext } from "react";
-import { TransactionContext } from "../../contexts/TransactionsContext";
 
 const formSchema = z.object({
     description: z.string(),
@@ -24,7 +23,10 @@ const formSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof formSchema>;
 
 export function NewTransactionModal() {
-    const { createTransactions } = useContext(TransactionContext);
+    const createTransactions = useContextSelector(
+        TransactionContext,
+        (context) => context.createTransactions
+    ); // This library will prevent unnecassary re-renders based on context changes.
 
     const {
         register,
