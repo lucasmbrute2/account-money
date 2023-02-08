@@ -42,7 +42,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
             },
         });
         setTransactionsList(response.data);
-    }, []);
+    }, []); //useCallback previne que essa função seja recriada sem de fato ter sofrido alguma alteração
 
     useEffect(() => {
         getTransactions();
